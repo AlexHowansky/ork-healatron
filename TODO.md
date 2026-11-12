@@ -1,0 +1,6 @@
+- Battle Medicine mode: 1 action, same DCs, doesn't remove wounded, and the target is immune to the healer's Battle Medicine for 1 day (1 hour with Godless Healing; Medic Dedication allows extra uses).
+- Ward Medic: treat 2/4/8 targets at once (expert/master/legendary). Would need a list of targets in the Target panel.
+- Assurance: show the fixed Assurance result (10 + proficiency bonus) and its fixed outcome next to the d20 odds.
+- Expected time to full HP: run many simulations and show the median and a range, not just one run.
+- Wounded and dying: track the Wounded condition and what happens when Risky Surgery or a critical failure drops the target to 0 HP.
+- Apply result: a button that copies the simulated final HP into Current HP.

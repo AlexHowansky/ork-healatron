@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="Treat Wounds healing calculator for Pathfinder 2e."
+    />
+    <title>Medalator</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <img
+        class="site-logo"
+        src="/src/assets/mortar.svg"
+        alt=""
+        width="84"
+        height="60"
+      />
+      <div>
+        <h1>Medalator</h1>
+        <p class="tagline">
+          Treat Wounds healing calculator for Pathfinder 2e.
+        </p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <form id="inputs" class="inputs" novalidate>
+        <section class="panel" aria-labelledby="healer-h">
+          <h2 id="healer-h">Healer</h2>
+
+          <div class="field">
+            <label for="rules-version">Rules version</label>
+            <select id="rules-version">
+              <option value="remaster" selected>Remaster (Player Core)</option>
+              <option value="legacy">Legacy (Core Rulebook)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="proficiency">Medicine proficiency</label>
+            <select id="proficiency">
+              <option value="trained" selected>Trained</option>
+              <option value="expert">Expert</option>
+              <option value="master">Master</option>
+              <option value="legendary">Legendary</option>
+            </select>
+          </div>
+
+          <div class="field range-field" data-range="bonus">
+            <label for="bonus">Medicine bonus</label>
+            <div class="range-row">
+              <input
+                id="bonus"
+                type="text"
+                inputmode="numeric"
+                value="5"
+                aria-describedby="bonus-hint bonus-error"
+              />
+              <input
+                id="bonus-slider"
+                type="range"
+                min="0"
+                max="40"
+                value="5"
+                aria-label="Medicine bonus slider"
+              />
+            </div>
+            <p id="bonus-hint" class="hint">
+              Include your healer's toolkit item bonus.
+            </p>
+            <p id="bonus-error" class="error" role="alert" hidden></p>
+          </div>
+
+          <fieldset class="field feats">
+            <legend>Medicine feats</legend>
+            <div class="checkbox-field">
+              <input
+                id="has-continual"
+                type="checkbox"
+                disabled
+                aria-describedby="has-continual-hint"
+              />
+              <label for="has-continual">Continual Recovery</label>
+            </div>
+            <p id="has-continual-hint" class="hint feat-hint">
+              The patient is immune for 10 minutes, not 1 hour. Needs expert
+              Medicine.
+            </p>
+            <div class="checkbox-field">
+              <input
+                id="has-risky"
+                type="checkbox"
+                aria-describedby="has-risky-hint"
+              />
+              <label for="has-risky">Risky Surgery</label>
+            </div>
+            <p id="has-risky-hint" class="hint feat-hint">
+              Deal 1d8 slashing damage for +2 to the check; a success becomes a
+              critical success.
+            </p>
+            <div class="checkbox-field">
+              <input
+                id="has-mortal"
+                type="checkbox"
+                aria-describedby="has-mortal-hint"
+              />
+              <label for="has-mortal">Mortal Healing</label>
+            </div>
+            <p id="has-mortal-hint" class="hint feat-hint">
+              A success becomes a critical success, if the patient hasn't
+              regained HP from divine magic in the past 24 hours.
+            </p>
+            <div class="checkbox-field">
+              <input
+                id="has-medic"
+                type="checkbox"
+                aria-describedby="has-medic-hint"
+              />
+              <label for="has-medic">Medic Dedication</label>
+            </div>
+            <p id="has-medic-hint" class="hint feat-hint">
+              +5 HP at DC 20, +10 at DC 30 or +15 at DC 40 on a success.
+            </p>
+          </fieldset>
+        </section>
+
+        <section class="panel" aria-labelledby="target-h">
+          <h2 id="target-h">Target</h2>
+
+          <div class="field range-field" data-range="max-hp">
+            <label for="max-hp">Max HP</label>
+            <div class="range-row">
+              <input
+                id="max-hp"
+                type="text"
+                inputmode="numeric"
+                value="60"
+                aria-describedby="max-hp-error"
+              />
+              <input
+                id="max-hp-slider"
+                type="range"
+                min="1"
+                max="999"
+                value="60"
+                aria-label="Max HP slider"
+              />
+            </div>
+            <p id="max-hp-error" class="error" role="alert" hidden></p>
+          </div>
+
+          <div class="field range-field" data-range="current-hp">
+            <label for="current-hp">Current HP</label>
+            <div class="range-row">
+              <input
+                id="current-hp"
+                type="text"
+                inputmode="numeric"
+                value="20"
+                aria-describedby="current-hp-error"
+              />
+              <input
+                id="current-hp-slider"
+                type="range"
+                min="0"
+                max="60"
+                value="20"
+                aria-label="Current HP slider"
+              />
+            </div>
+            <p id="current-hp-error" class="error" role="alert" hidden></p>
+          </div>
+
+          <div class="field">
+            <div class="checkbox-field">
+              <input
+                id="has-godless"
+                type="checkbox"
+                aria-describedby="has-godless-hint"
+              />
+              <label for="has-godless">Has Godless Healing</label>
+            </div>
+            <p id="has-godless-hint" class="hint">
+              The target regains 5 more HP from a successful Treat Wounds.
+            </p>
+          </div>
+
+          <div class="field range-field" data-range="dc-adjust">
+            <label for="dc-adjust">DC adjustment</label>
+            <div class="range-row">
+              <input
+                id="dc-adjust"
+                type="text"
+                inputmode="numeric"
+                value="0"
+                aria-describedby="dc-adjust-hint dc-adjust-error"
+              />
+              <input
+                id="dc-adjust-slider"
+                type="range"
+                min="-10"
+                max="10"
+                value="0"
+                aria-label="DC adjustment slider"
+              />
+            </div>
+            <p id="dc-adjust-hint" class="hint">
+              The GM may raise the DC for the circumstances, such as treating
+              outside in a storm or magically cursed wounds.
+            </p>
+            <p id="dc-adjust-error" class="error" role="alert" hidden></p>
+          </div>
+        </section>
+      </form>
+
+      <section class="panel results" aria-labelledby="results-h">
+        <h2 id="results-h">Results</h2>
+
+        <div class="field">
+          <label for="dc-tier">Treat Wounds DC</label>
+          <select id="dc-tier" aria-describedby="dc-tier-hint">
+            <option value="trained" selected>DC 15</option>
+            <option value="expert">DC 20 (+10 HP)</option>
+            <option value="master">DC 30 (+30 HP)</option>
+            <option value="legendary">DC 40 (+50 HP)</option>
+          </select>
+          <p id="dc-tier-hint" class="hint" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <div class="checkbox-field">
+            <input
+              id="full-hour"
+              type="checkbox"
+              aria-describedby="full-hour-hint"
+            />
+            <label for="full-hour">Treat for a full hour</label>
+          </div>
+          <p id="full-hour-hint" class="hint">
+            On a success, keep treating for 1 hour to double the healing.
+          </p>
+        </div>
+
+        <dl class="summary">
+          <div>
+            <dt>DC</dt>
+            <dd id="out-dc">-</dd>
+          </div>
+          <div>
+            <dt>Check bonus</dt>
+            <dd id="out-bonus">-</dd>
+          </div>
+          <div>
+            <dt>HP missing</dt>
+            <dd id="out-missing">-</dd>
+          </div>
+          <div>
+            <dt>Avg. per hour</dt>
+            <dd id="out-per-hour">-</dd>
+          </div>
+        </dl>
+
+        <div class="odds">
+          <h3 id="odds-h">Check odds</h3>
+          <div id="odds-bar" class="odds-bar" aria-hidden="true">
+            <span class="cs"></span><span class="s"></span>
+            <span class="f"></span><span class="cf"></span>
+          </div>
+          <ul id="odds-list" class="odds-list" aria-labelledby="odds-h"></ul>
+          <p id="out-check" class="hint"></p>
+        </div>
+
+        <table class="degrees" aria-live="polite">
+          <thead>
+            <tr>
+              <th scope="col">Outcome</th>
+              <th scope="col">Average HP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" id="cs-label">Critical success</th>
+              <td id="avg-cs">-</td>
+            </tr>
+            <tr>
+              <th scope="row" id="s-label">Success</th>
+              <td id="avg-s">-</td>
+            </tr>
+            <tr>
+              <th scope="row">Failure</th>
+              <td id="avg-f">-</td>
+            </tr>
+            <tr>
+              <th scope="row">Critical failure</th>
+              <td id="avg-cf">-</td>
+            </tr>
+            <tr>
+              <th scope="row">Average per attempt</th>
+              <td id="avg-attempt">-</td>
+            </tr>
+            <tr>
+              <th scope="row">Time between attempts</th>
+              <td id="avg-interval">-</td>
+            </tr>
+          </tbody>
+        </table>
+        <p id="avg-note" class="hint" hidden></p>
+
+        <div class="rolls">
+          <div class="roll-actions">
+            <button id="roll" type="button" class="button primary">
+              Roll until healed
+            </button>
+            <button id="clear-rolls" type="button" class="button" disabled>
+              Clear
+            </button>
+          </div>
+          <p id="roll-status" class="hint" aria-live="polite"></p>
+
+          <dl id="roll-totals" class="summary" hidden>
+            <div>
+              <dt>Attempts</dt>
+              <dd id="out-attempts">-</dd>
+            </div>
+            <div>
+              <dt>HP healed</dt>
+              <dd id="out-healed">-</dd>
+            </div>
+            <div>
+              <dt>Time passed</dt>
+              <dd id="out-time">-</dd>
+            </div>
+          </dl>
+
+          <div id="roll-log-wrap" class="log-wrap" hidden>
+            <table class="roll-log">
+              <caption class="visually-hidden">
+                Treat Wounds rolls
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Check</th>
+                  <th scope="col">Result</th>
+                  <th scope="col">HP</th>
+                </tr>
+              </thead>
+              <tbody id="roll-log"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <noscript>This calculator needs JavaScript to run.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
