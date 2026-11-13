@@ -73,13 +73,13 @@ passes.
 
   * Roll until healed button. Rolls Treat Wounds attempts with fair dice
     until the target is at full HP, is brought down to 0 HP by damage, or
-    200 attempts have been made. Shows a message saying how the run ended
-    and the final HP, totals (attempts, net HP healed, time passed) and a
-    log of every attempt: number, clock time from the start (h:mm), degree
-    with the d20 roll and total, HP rolled with how it was worked out
-    (e.g. "(2d8 (3, 5) + 10) × 2 + 5"), and HP before and after. A Clear
-    button clears the log. Changing any input clears a shown log and says
-    to roll again.
+    200 attempts have been made. The results open in a modal dialog: a
+    message saying how the run ended and the final HP, totals (attempts,
+    net HP healed, time passed) and a log of every attempt: number, clock
+    time from the start (h:mm), degree with the d20 roll and total, HP
+    rolled with how it was worked out (e.g. "(2d8 (3, 5) + 10) × 2 + 5"),
+    and HP before and after. The dialog closes with its Close button,
+    Escape, or a click outside it. Each click rolls a new run.
 
 * The Healer panel (rules version, proficiency, bonus, toolkit and feats) is
   remembered in the browser and restored on the next visit. Saved values

@@ -170,13 +170,12 @@ export function renderSimulation(sim: Simulation, maxHp: number): void {
     ...sim.attempts.map(attemptRow),
   );
   byId('roll-log-wrap', HTMLElement).hidden = sim.attempts.length === 0;
-  byId('clear-rolls', HTMLButtonElement).disabled = false;
 }
 
-export function clearSimulation(message = ''): void {
+/** Show only a message in the roll results (e.g. when the rolls failed). */
+export function renderSimulationError(message: string): void {
   text('roll-status', message);
   byId('roll-totals', HTMLElement).hidden = true;
   byId('roll-log', HTMLElement).replaceChildren();
   byId('roll-log-wrap', HTMLElement).hidden = true;
-  byId('clear-rolls', HTMLButtonElement).disabled = true;
 }

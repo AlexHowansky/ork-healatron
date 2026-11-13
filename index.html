@@ -362,51 +362,53 @@
         <p id="avg-note" class="hint" hidden></p>
 
         <div class="rolls">
-          <div class="roll-actions">
-            <button id="roll" type="button" class="button primary">
-              Roll until healed
-            </button>
-            <button id="clear-rolls" type="button" class="button" disabled>
-              Clear
-            </button>
-          </div>
-          <p id="roll-status" class="hint" aria-live="polite"></p>
-
-          <dl id="roll-totals" class="summary" hidden>
-            <div>
-              <dt>Attempts</dt>
-              <dd id="out-attempts">-</dd>
-            </div>
-            <div>
-              <dt>HP healed</dt>
-              <dd id="out-healed">-</dd>
-            </div>
-            <div>
-              <dt>Time passed</dt>
-              <dd id="out-time">-</dd>
-            </div>
-          </dl>
-
-          <div id="roll-log-wrap" class="log-wrap" hidden>
-            <table class="roll-log">
-              <caption class="visually-hidden">
-                Treat Wounds rolls
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Check</th>
-                  <th scope="col">Result</th>
-                  <th scope="col">HP</th>
-                </tr>
-              </thead>
-              <tbody id="roll-log"></tbody>
-            </table>
-          </div>
+          <button id="roll" type="button" class="button primary">
+            Roll until healed
+          </button>
         </div>
       </section>
     </main>
+
+    <dialog id="roll-dialog" class="panel roll-dialog" aria-labelledby="roll-h">
+      <div class="dialog-head">
+        <h2 id="roll-h">Roll until healed</h2>
+        <button id="roll-close" type="button" class="button">Close</button>
+      </div>
+      <p id="roll-status" aria-live="polite"></p>
+
+      <dl id="roll-totals" class="summary">
+        <div>
+          <dt>Attempts</dt>
+          <dd id="out-attempts">-</dd>
+        </div>
+        <div>
+          <dt>HP healed</dt>
+          <dd id="out-healed">-</dd>
+        </div>
+        <div>
+          <dt>Time passed</dt>
+          <dd id="out-time">-</dd>
+        </div>
+      </dl>
+
+      <div id="roll-log-wrap" class="log-wrap" hidden>
+        <table class="roll-log">
+          <caption class="visually-hidden">
+            Treat Wounds rolls
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Time</th>
+              <th scope="col">Check</th>
+              <th scope="col">Result</th>
+              <th scope="col">HP</th>
+            </tr>
+          </thead>
+          <tbody id="roll-log"></tbody>
+        </table>
+      </div>
+    </dialog>
 
     <noscript>This calculator needs JavaScript to run.</noscript>
     <script type="module" src="/src/main.ts"></script>

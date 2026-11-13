@@ -34,9 +34,9 @@ import { loadHealerSettings, saveHealerSettings } from '../settings';
 import { byId } from './dom';
 import { createRangeInput, type RangeInput } from './rangeInput';
 import {
-  clearSimulation,
   clearSummary,
   renderSimulation,
+  renderSimulationError,
   renderSummary,
 } from './results';
 
@@ -46,7 +46,6 @@ const FULL_HOUR_HINT =
   'On a success, keep treating for 1 hour to double the healing.';
 const FULL_HOUR_LEGACY_HINT =
   'Remaster rule only; not available with the Legacy rules.';
-const STALE_MESSAGE = 'The inputs changed. Roll again to see new results.';
 
 function oneOf<T extends string>(
   allowed: readonly T[],
@@ -95,7 +94,8 @@ export function initForm(opts: FormOptions = {}): void {
   const riskyEffect = byId('has-risky-effect', HTMLElement);
   const riskyOption = byId('risky-option', HTMLElement);
   const rollButton = byId('roll', HTMLButtonElement);
-  const clearButton = byId('clear-rolls', HTMLButtonElement);
+  const rollDialog = byId('roll-dialog', HTMLDialogElement);
+  const rollClose = byId('roll-close', HTMLButtonElement);
   const featBoxes: Readonly<Record<HealerFeat, HTMLInputElement>> = {
     continualRecovery: byId('has-continual', HTMLInputElement),
     riskySurgery: byId('has-risky', HTMLInputElement),
@@ -117,15 +117,9 @@ export function initForm(opts: FormOptions = {}): void {
 
   // Ignore change events fired while the inputs are being set up.
   let ready = false;
-  // Whether a roll log is showing that matches the current inputs.
-  let rolled = false;
 
   const update = (): void => {
     if (!ready) return;
-    if (rolled) {
-      rolled = false;
-      clearSimulation(STALE_MESSAGE);
-    }
     recalc();
   };
 
@@ -318,16 +312,26 @@ export function initForm(opts: FormOptions = {}): void {
           `${sim.healed} HP in ${sim.minutes} min`,
       );
       renderSimulation(sim, current.maxHp);
-      rolled = true;
     } catch (err) {
       log.error('Simulation failed', err);
-      clearSimulation('Sorry, the rolls could not be made. Please try again.');
+      renderSimulationError(
+        'Sorry, the rolls could not be made. Please try again.',
+      );
     }
+    rollDialog.showModal();
   });
 
-  clearButton.addEventListener('click', () => {
-    rolled = false;
-    clearSimulation();
+  rollClose.addEventListener('click', () => rollDialog.close());
+  // A click on the backdrop (outside the dialog's box) closes it too.
+  rollDialog.addEventListener('click', (event) => {
+    if (event.target !== rollDialog) return;
+    const box = rollDialog.getBoundingClientRect();
+    const inside =
+      event.clientX >= box.left &&
+      event.clientX <= box.right &&
+      event.clientY >= box.top &&
+      event.clientY <= box.bottom;
+    if (!inside) rollDialog.close();
   });
 
   rulesVersion.addEventListener('change', () => {

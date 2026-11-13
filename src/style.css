@@ -665,12 +665,45 @@ input[aria-invalid='true']:focus-visible {
   opacity: 0.5;
 }
 
-#roll-status:empty {
-  display: none;
+/* ---- Roll results dialog ---- */
+
+/* `.panel` sets position: relative, which would undo the modal placement. */
+dialog.roll-dialog {
+  position: fixed;
+  width: min(48rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  color: var(--text);
+  overflow: auto;
+}
+
+.roll-dialog::backdrop {
+  background: rgb(20 12 4 / 0.55);
+}
+
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-head h2 {
+  margin: 0;
+}
+
+#roll-status {
+  margin: 0;
+  font-weight: 600;
 }
 
 #roll-totals {
   margin-top: 0.75rem;
+}
+
+.roll-dialog .log-wrap {
+  max-height: none;
 }
 
 .log-wrap {

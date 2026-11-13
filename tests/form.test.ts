@@ -28,6 +28,14 @@ function scripted(...rolls: number[]): Roller {
   };
 }
 
+// jsdom has no modal dialogs; stand in for showModal() and close().
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
+
 beforeEach(() => {
   localStorage.clear();
   document.body.replaceChildren(...Array.from(body.cloneNode(true).childNodes));
@@ -153,11 +161,18 @@ describe('form behaviour', () => {
     expect(el('out-healed').textContent).toBe('+40');
     expect(el('out-time').textContent).toBe('2 hours 10 min');
     expect(el('roll-status').textContent).toContain('full HP');
-    expect(el<HTMLButtonElement>('clear-rolls').disabled).toBe(false);
+    const dialog = el<HTMLDialogElement>('roll-dialog');
+    expect(dialog.open).toBe(true);
 
-    // Changing an input clears the stale log.
-    change('bonus', '6');
-    expect(el('roll-log').children).toHaveLength(0);
-    expect(el('roll-status').textContent).toContain('Roll again');
+    el<HTMLButtonElement>('roll-close').click();
+    expect(dialog.open).toBe(false);
+  });
+
+  it('shows a friendly message in the dialog when rolling fails', () => {
+    initForm({ roll: scripted() });
+    el<HTMLButtonElement>('roll').click();
+    expect(el<HTMLDialogElement>('roll-dialog').open).toBe(true);
+    expect(el('roll-status').textContent).toContain('could not be made');
+    expect(el('roll-totals').hidden).toBe(true);
   });
 });
