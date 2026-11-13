@@ -13,6 +13,9 @@ current and max HP. Healatron shows:
 - simulated rolls until the target is healed: every roll, the HP healed
   and the time passed.
 
+![Healatron showing the Healer and Target panels, outcome odds and a
+simulated healing run](example.webp)
+
 The feats it covers are Continual Recovery, Risky Surgery, Mortal Healing,
 Medic Dedication and Godless Healing.
 
