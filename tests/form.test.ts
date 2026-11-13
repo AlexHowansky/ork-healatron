@@ -113,6 +113,21 @@ describe('form behaviour', () => {
     expect(el('odds-list').children).toHaveLength(4);
   });
 
+  it('says whether Risky Surgery helps', () => {
+    initForm();
+    const hint = (): string | null => el('has-risky-effect').textContent;
+    const helps = (): boolean => el('risky-option').classList.contains('helps');
+    expect(hint()).toBe(
+      'With these inputs it raises the average by 1.8 HP per hour.',
+    );
+    expect(helps()).toBe(true);
+    change('bonus', '20');
+    expect(hint()).toBe(
+      'With these inputs it lowers the average by 3.2 HP per hour.',
+    );
+    expect(helps()).toBe(false);
+  });
+
   it('rolls until healed and logs each attempt', () => {
     // 20/60 HP, +5 vs DC 15. Attempt 1: d20 10 = 15 success, 2d8 8+8 = 16.
     // Attempt 2: d20 2 = 7 failure. Attempt 3: d20 20 crit, 4d8 = 32.

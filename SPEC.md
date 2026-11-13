@@ -26,7 +26,11 @@ passes.
 
   * Medicine feats. Implemented as checkboxes, each with a hint: Continual
     Recovery (only enabled at expert or better; otherwise unchecked),
-    Risky Surgery, Mortal Healing and Medic Dedication.
+    Risky Surgery, Mortal Healing and Medic Dedication. Risky Surgery's
+    hint also says whether, with the current inputs, it raises or lowers
+    the average HP per hour and by how much (or makes no difference),
+    whether or not it is checked. When it raises the average, the Risky
+    Surgery checkbox and its hint are highlighted with a green tint.
 
 * Target panel inputs:
 

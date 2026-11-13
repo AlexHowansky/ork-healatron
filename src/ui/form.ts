@@ -1,6 +1,6 @@
 /** Binds the input form to the healing rules and the Results panel. */
 import { rollDie } from '../dice';
-import { formatSigned } from '../format';
+import { formatAverage, formatSigned } from '../format';
 import { createLogger } from '../logger';
 import {
   TIER_DC,
@@ -9,6 +9,7 @@ import {
   bestTier,
   checkBonus,
   continualRecoveryAllowed,
+  riskySurgeryGain,
   fullHourAllowed,
   simulate,
   tierAllowed,
@@ -89,6 +90,8 @@ export function initForm(opts: FormOptions = {}): void {
   const fullHourHint = byId('full-hour-hint', HTMLElement);
   const godless = byId('has-godless', HTMLInputElement);
   const toolkit = byId('has-toolkit', HTMLInputElement);
+  const riskyEffect = byId('has-risky-effect', HTMLElement);
+  const riskyOption = byId('risky-option', HTMLElement);
   const rollButton = byId('roll', HTMLButtonElement);
   const clearButton = byId('clear-rolls', HTMLButtonElement);
   const featBoxes: Readonly<Record<HealerFeat, HTMLInputElement>> = {
@@ -247,6 +250,18 @@ export function initForm(opts: FormOptions = {}): void {
       `(${formatSigned(rate)} HP per hour).`;
   }
 
+  /** Say whether Risky Surgery helps or hurts with the current inputs. */
+  function updateRiskyHint(current: HealingInputs): void {
+    const gain = riskySurgeryGain(current);
+    const amount = formatAverage(Math.abs(gain));
+    riskyOption.classList.toggle('helps', amount !== '0' && gain > 0);
+    riskyEffect.textContent =
+      amount === '0'
+        ? 'With these inputs it makes no difference on average.'
+        : `With these inputs it ${gain > 0 ? 'raises' : 'lowers'} the ` +
+          `average by ${amount} HP per hour.`;
+  }
+
   function recalc(): void {
     const current = inputs();
     try {
@@ -258,11 +273,14 @@ export function initForm(opts: FormOptions = {}): void {
         average: averageHealing(current),
       });
       updateTierHint(current);
+      updateRiskyHint(current);
       rollButton.disabled = false;
       log.debug('Calculated', current);
     } catch (err) {
       log.error('Calculation failed', err);
       clearSummary();
+      riskyEffect.textContent = '';
+      riskyOption.classList.remove('helps');
       dcTierHint.textContent =
         'Something went wrong with that calculation. Please check the inputs.';
       rollButton.disabled = true;

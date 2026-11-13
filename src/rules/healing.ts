@@ -256,6 +256,17 @@ export function averageHealing(inputs: HealingInputs): AverageHealing {
 }
 
 /**
+ * How much Risky Surgery changes the average net HP per hour: positive if
+ * it helps, negative if its damage outweighs the upgraded successes.
+ */
+export function riskySurgeryGain(inputs: HealingInputs): number {
+  const rate = (riskySurgery: boolean): number =>
+    averageHealing({ ...inputs, feats: { ...inputs.feats, riskySurgery } })
+      .perHour;
+  return rate(true) - rate(false);
+}
+
+/**
  * The allowed DC tier with the most healing per hour on average; ties go
  * to the lower DC.
  */

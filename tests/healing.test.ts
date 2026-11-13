@@ -9,6 +9,7 @@ import {
   checkOdds,
   continualRecoveryAllowed,
   healingAmount,
+  riskySurgeryGain,
   rollDegree,
   simulate,
   treatDc,
@@ -100,6 +101,21 @@ describe('degrees and odds', () => {
     const mortal = withFeats({ mortalHealing: true });
     expect(attemptDegree(10, mortal)).toBe('criticalSuccess');
     expect(attemptDegree(9, mortal)).toBe('failure');
+  });
+
+  it('compares the average per hour with and without Risky Surgery', () => {
+    // +5 vs DC 15: many plain successes to upgrade, so it helps.
+    expect(riskySurgeryGain(BASE)).toBeGreaterThan(0);
+    // +20 vs DC 15 already crits often, so the damage outweighs it.
+    expect(riskySurgeryGain({ ...BASE, bonus: 20 })).toBeLessThan(0);
+    // Mortal Healing already upgrades successes.
+    expect(riskySurgeryGain(withFeats({ mortalHealing: true }))).toBeLessThan(
+      0,
+    );
+    // Same answer whether or not the box is ticked.
+    expect(riskySurgeryGain(withFeats({ riskySurgery: true }))).toBe(
+      riskySurgeryGain(BASE),
+    );
   });
 
   it("adds +1 for an expanded healer's toolkit", () => {

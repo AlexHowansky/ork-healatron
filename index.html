@@ -102,18 +102,20 @@
               The patient is immune for 10 minutes, not 1 hour. Needs expert
               Medicine.
             </p>
-            <div class="checkbox-field">
-              <input
-                id="has-risky"
-                type="checkbox"
-                aria-describedby="has-risky-hint"
-              />
-              <label for="has-risky">Risky Surgery</label>
+            <div id="risky-option" class="feat-option">
+              <div class="checkbox-field">
+                <input
+                  id="has-risky"
+                  type="checkbox"
+                  aria-describedby="has-risky-hint"
+                />
+                <label for="has-risky">Risky Surgery</label>
+              </div>
+              <p id="has-risky-hint" class="hint feat-hint">
+                Deal 1d8 slashing damage for +2 to the check; a success becomes
+                a critical success. <span id="has-risky-effect"></span>
+              </p>
             </div>
-            <p id="has-risky-hint" class="hint feat-hint">
-              Deal 1d8 slashing damage for +2 to the check; a success becomes a
-              critical success.
-            </p>
             <div class="checkbox-field">
               <input
                 id="has-mortal"
