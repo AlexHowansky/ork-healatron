@@ -103,16 +103,21 @@ describe('form behaviour', () => {
     expect(tier.value).toBe('expert');
   });
 
-  it('enables Robust Health from level 3', () => {
+  it('ghosts the level unless Robust Health is checked', () => {
     initForm();
-    const robust = el<HTMLInputElement>('has-robust');
-    expect(robust.disabled).toBe(true);
-    change('level', '3');
-    expect(robust.disabled).toBe(false);
+    const level = el<HTMLInputElement>('level');
+    const slider = el<HTMLInputElement>('level-slider');
+    const field = level.closest('.range-field');
+    expect(el<HTMLInputElement>('has-robust').disabled).toBe(false);
+    expect(level.disabled).toBe(true);
+    expect(slider.disabled).toBe(true);
+    expect(field?.classList.contains('ghosted')).toBe(true);
     change('has-robust', true);
-    change('level', '2');
-    expect(robust.disabled).toBe(true);
-    expect(robust.checked).toBe(false);
+    expect(level.disabled).toBe(false);
+    expect(slider.disabled).toBe(false);
+    expect(field?.classList.contains('ghosted')).toBe(false);
+    change('has-robust', false);
+    expect(level.disabled).toBe(true);
   });
 
   it('keeps current HP within max HP', () => {

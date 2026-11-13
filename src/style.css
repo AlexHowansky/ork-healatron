@@ -432,6 +432,19 @@ input[aria-invalid='true']:focus-visible {
   transform: none;
 }
 
+/* A field that doesn't apply right now, e.g. level without Robust Health. */
+.range-field.ghosted {
+  opacity: 0.5;
+}
+
+.range-field.ghosted input[type='text'] {
+  cursor: default;
+}
+
+.range-field.ghosted input[type='range']:disabled {
+  opacity: 1;
+}
+
 .checkbox-field {
   display: flex;
   gap: 0.6rem;

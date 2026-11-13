@@ -10,7 +10,6 @@ import {
   checkBonus,
   continualRecoveryAllowed,
   riskySurgeryGain,
-  robustHealthAllowed,
   fullHourAllowed,
   simulate,
   tierAllowed,
@@ -167,10 +166,7 @@ export function initForm(opts: FormOptions = {}): void {
     'Character level',
     LIMITS.level.min,
     LIMITS.level.max,
-    () => {
-      applyLevelRules();
-      update();
-    },
+    update,
   );
   const maxHp = range(
     'max-hp',
@@ -221,17 +217,15 @@ export function initForm(opts: FormOptions = {}): void {
     fullHourHint.textContent = allowed ? FULL_HOUR_HINT : FULL_HOUR_LEGACY_HINT;
   }
 
-  /** Robust Health is a 3rd-level feat. */
-  function applyLevelRules(): void {
-    const allowed = robustHealthAllowed(level.value);
-    robust.disabled = !allowed;
-    if (!allowed) robust.checked = false;
+  /** The target's level only matters for Robust Health. */
+  function applyRobustRules(): void {
+    level.setDisabled(!robust.checked);
   }
 
   applyTierLimits();
   applyFeatRequirements();
   applyVersionRules();
-  applyLevelRules();
+  applyRobustRules();
 
   function inputs(): HealingInputs {
     return {
@@ -351,6 +345,7 @@ export function initForm(opts: FormOptions = {}): void {
       update();
     });
   }
+  robust.addEventListener('change', applyRobustRules);
   for (const el of [dcTier, fullHour, godless, robust]) {
     el.addEventListener('change', update);
   }

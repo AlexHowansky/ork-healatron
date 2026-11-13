@@ -43,7 +43,7 @@ export const DEGREE_NAMES: Readonly<Record<Degree, string>> = Object.freeze({
 export const LIMITS = Object.freeze({
   bonus: { min: 0, max: 40 },
   maxHp: { min: 1, max: 400 },
-  level: { min: 1, max: 20 },
+  level: { min: 3, max: 20 },
   dcAdjustment: { min: -10, max: 10 },
 });
 

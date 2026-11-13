@@ -35,8 +35,6 @@ passes.
 
 * Target panel inputs:
 
-  * Character level. Text box with a slider, 1 - 20. Defaults to 1.
-
   * Max HP. Text box with a slider, 1 - 400. Defaults to 60.
 
   * Current HP. Text box with a slider, 0 - max HP. Defaults to 20. If max
@@ -44,8 +42,11 @@ passes.
 
   * Has Godless Healing. Checkbox.
 
-  * Has Robust Health. Checkbox with a hint; only enabled at level 3 or
-    higher (otherwise unchecked).
+  * Has Robust Health. Checkbox with a hint.
+
+  * Character level. Text box with a slider, 3 - 20. Defaults to 3. Only
+    used by Robust Health (a 3rd-level feat), so it sits under that
+    checkbox and is ghosted out (disabled) while it is unchecked.
 
   * DC adjustment. Text box with a slider, -10 - +10, defaults to 0: the
     GM's adjustment for the circumstances.

@@ -21,6 +21,8 @@ export interface RangeInputOptions {
 export interface RangeInput {
   readonly value: number;
   setMax(max: number): void;
+  /** Ghost the whole field out (both inputs disabled). */
+  setDisabled(disabled: boolean): void;
   /** Set the value, clamped to the range; fires onChange if it changed. */
   setValue(value: number): void;
 }
@@ -32,6 +34,7 @@ export function createRangeInput(opts: RangeInputOptions): RangeInput {
   const min = opts.min;
   let max = Math.max(min, opts.max);
   let value = clamp(Number.parseInt(text.value, 10));
+  let disabled = false;
 
   function clamp(n: number): number {
     if (!Number.isFinite(n)) return min;
@@ -54,7 +57,9 @@ export function createRangeInput(opts: RangeInputOptions): RangeInput {
     slider.min = String(min);
     slider.max = String(max);
     slider.value = String(value);
-    slider.disabled = min === max;
+    slider.disabled = disabled || min === max;
+    text.disabled = disabled;
+    text.closest('.range-field')?.classList.toggle('ghosted', disabled);
     syncFill(value);
     text.value = String(value);
     text.setAttribute('aria-invalid', 'false');
@@ -109,6 +114,11 @@ export function createRangeInput(opts: RangeInputOptions): RangeInput {
         log.debug(`${label}: clamped to ${value} (max now ${max})`);
         onChange(value);
       }
+    },
+    setDisabled(next: boolean) {
+      if (next === disabled) return;
+      disabled = next;
+      render();
     },
     setValue(next: number) {
       const clamped = clamp(Math.trunc(next));

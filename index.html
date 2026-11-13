@@ -144,28 +144,6 @@
         <section class="panel" aria-labelledby="target-h">
           <h2 id="target-h">Target</h2>
 
-          <div class="field range-field" data-range="level">
-            <label for="level">Character level</label>
-            <div class="range-row">
-              <input
-                id="level"
-                type="text"
-                inputmode="numeric"
-                value="1"
-                aria-describedby="level-error"
-              />
-              <input
-                id="level-slider"
-                type="range"
-                min="1"
-                max="20"
-                value="1"
-                aria-label="Character level slider"
-              />
-            </div>
-            <p id="level-error" class="error" role="alert" hidden></p>
-          </div>
-
           <div class="field range-field" data-range="max-hp">
             <label for="max-hp">Max HP</label>
             <div class="range-row">
@@ -229,15 +207,36 @@
               <input
                 id="has-robust"
                 type="checkbox"
-                disabled
                 aria-describedby="has-robust-hint"
               />
               <label for="has-robust">Robust Health</label>
             </div>
             <p id="has-robust-hint" class="hint">
               The target regains HP equal to their level more from a successful
-              Treat Wounds. Doesn't stack with Medic Dedication. Needs level 3.
+              Treat Wounds. Doesn't stack with Medic Dedication.
             </p>
+          </div>
+
+          <div class="field range-field" data-range="level">
+            <label for="level">Character level</label>
+            <div class="range-row">
+              <input
+                id="level"
+                type="text"
+                inputmode="numeric"
+                value="3"
+                aria-describedby="level-error"
+              />
+              <input
+                id="level-slider"
+                type="range"
+                min="3"
+                max="20"
+                value="3"
+                aria-label="Character level slider"
+              />
+            </div>
+            <p id="level-error" class="error" role="alert" hidden></p>
           </div>
 
           <div class="field range-field" data-range="dc-adjust">
