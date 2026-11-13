@@ -43,6 +43,8 @@ export const MEDIC_BONUS: Readonly<Record<DcTier, number>> = Object.freeze({
 });
 
 export const GODLESS_BONUS = 5;
+/** Robust Health is a 3rd-level general feat. */
+export const ROBUST_HEALTH_MIN_LEVEL = 3;
 export const RISKY_SURGERY_BONUS = 2;
 /** Item bonus to Medicine from an expanded healer's toolkit. */
 export const EXPANDED_TOOLKIT_BONUS = 1;
@@ -80,6 +82,11 @@ export function continualRecoveryAllowed(proficiency: Proficiency): boolean {
 /** Treating for a full hour to double the healing is a Remaster rule. */
 export function fullHourAllowed(version: RulesVersion): boolean {
   return version === 'remaster';
+}
+
+/** Robust Health needs a 3rd-level target. */
+export function robustHealthAllowed(level: number): boolean {
+  return level >= ROBUST_HEALTH_MIN_LEVEL;
 }
 
 export function treatDc(inputs: HealingInputs): number {
@@ -163,12 +170,16 @@ export function checkOdds(inputs: HealingInputs): CheckOdds {
   };
 }
 
-/** Flat HP added after any doubling: Medic Dedication, Godless Healing. */
+/**
+ * Flat HP added after any doubling. Medic Dedication and Robust Health
+ * are both circumstance bonuses, so only the higher applies; Godless
+ * Healing is untyped and stacks.
+ */
 export function flatBonus(inputs: HealingInputs): number {
-  return (
-    (inputs.feats.medicDedication ? MEDIC_BONUS[inputs.tier] : 0) +
-    (inputs.godless ? GODLESS_BONUS : 0)
-  );
+  const medic = inputs.feats.medicDedication ? MEDIC_BONUS[inputs.tier] : 0;
+  const robust =
+    inputs.robustHealth && robustHealthAllowed(inputs.level) ? inputs.level : 0;
+  return Math.max(medic, robust) + (inputs.godless ? GODLESS_BONUS : 0);
 }
 
 /** HP regained on a success or critical success, given the dice total. */

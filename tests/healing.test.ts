@@ -32,6 +32,8 @@ const BASE: HealingInputs = {
   dcAdjustment: 0,
   fullHour: false,
   godless: false,
+  level: 1,
+  robustHealth: false,
   currentHp: 20,
   maxHp: 60,
 };
@@ -145,6 +147,26 @@ describe('healing amounts', () => {
     // (9 + 30) * 2 + 10 + 5
     expect(healingAmount(9, inputs)).toBe(93);
     expect(healingAmount(9, withFeats({ medicDedication: true }))).toBe(9);
+  });
+
+  it('adds Robust Health equal to the level from level 3', () => {
+    const robust = { ...BASE, robustHealth: true, godless: true };
+    expect(healingAmount(9, { ...robust, level: 2 })).toBe(14);
+    expect(healingAmount(9, { ...robust, level: 3 })).toBe(17);
+    // Added after doubling: (9 + 10) * 2 + 7 + 5
+    const hour = { ...robust, level: 7, tier: 'expert' as const };
+    expect(healingAmount(9, { ...hour, fullHour: true })).toBe(50);
+  });
+
+  it('uses only the higher of Medic Dedication and Robust Health', () => {
+    const both = withFeats(
+      { medicDedication: true },
+      { tier: 'master', robustHealth: true },
+    );
+    // Medic +10 beats level 6.
+    expect(healingAmount(9, { ...both, level: 6 })).toBe(49);
+    // Level 14 beats Medic +10.
+    expect(healingAmount(9, { ...both, level: 14 })).toBe(53);
   });
 
   it('averages per attempt', () => {

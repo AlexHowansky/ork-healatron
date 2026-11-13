@@ -34,12 +34,17 @@ passes.
 
 * Target panel inputs:
 
+  * Character level. Text box with a slider, 1 - 20. Defaults to 1.
+
   * Max HP. Text box with a slider, 1 - 999. Defaults to 60.
 
   * Current HP. Text box with a slider, 0 - max HP. Defaults to 20. If max
     HP is lowered below it, it is reduced to fit.
 
   * Has Godless Healing. Checkbox.
+
+  * Has Robust Health. Checkbox with a hint; only enabled at level 3 or
+    higher (otherwise unchecked).
 
   * DC adjustment. Text box with a slider, -10 - +10, defaults to 0: the
     GM's adjustment for the circumstances.
@@ -127,8 +132,10 @@ passes.
   last 24 hours.
 
 * Medic Dedication: on a success, +5 HP at DC 20, +10 at DC 30, +15 at
-  DC 40. Godless Healing (target): +5 HP on a success. Both are added
-  after any doubling.
+  DC 40. Robust Health (target, level 3+): +HP equal to the target's
+  level on a success. Both are circumstance bonuses, so only the higher
+  applies. Godless Healing (target): +5 HP on a success, stacking with
+  either. All are added after any doubling.
 
 * Time passed: from the start of the first attempt to the end of the last
   treatment. The next attempt starts after the longer of the treatment

@@ -43,6 +43,7 @@ export const DEGREE_NAMES: Readonly<Record<Degree, string>> = Object.freeze({
 export const LIMITS = Object.freeze({
   bonus: { min: 0, max: 40 },
   maxHp: { min: 1, max: 999 },
+  level: { min: 1, max: 20 },
   dcAdjustment: { min: -10, max: 10 },
 });
 
@@ -62,6 +63,10 @@ export interface HealingInputs {
   readonly fullHour: boolean;
   /** The target has the Godless Healing feat. */
   readonly godless: boolean;
+  /** The target's character level. */
+  readonly level: number;
+  /** The target has the Robust Health feat (level 3 or higher). */
+  readonly robustHealth: boolean;
   readonly currentHp: number;
   readonly maxHp: number;
 }

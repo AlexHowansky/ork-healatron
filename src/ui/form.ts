@@ -10,6 +10,7 @@ import {
   checkBonus,
   continualRecoveryAllowed,
   riskySurgeryGain,
+  robustHealthAllowed,
   fullHourAllowed,
   simulate,
   tierAllowed,
@@ -89,6 +90,7 @@ export function initForm(opts: FormOptions = {}): void {
   const fullHour = byId('full-hour', HTMLInputElement);
   const fullHourHint = byId('full-hour-hint', HTMLElement);
   const godless = byId('has-godless', HTMLInputElement);
+  const robust = byId('has-robust', HTMLInputElement);
   const toolkit = byId('has-toolkit', HTMLInputElement);
   const riskyEffect = byId('has-risky-effect', HTMLElement);
   const riskyOption = byId('risky-option', HTMLElement);
@@ -166,6 +168,16 @@ export function initForm(opts: FormOptions = {}): void {
       update();
     },
   );
+  const level = range(
+    'level',
+    'Character level',
+    LIMITS.level.min,
+    LIMITS.level.max,
+    () => {
+      applyLevelRules();
+      update();
+    },
+  );
   const maxHp = range(
     'max-hp',
     'Max HP',
@@ -215,9 +227,17 @@ export function initForm(opts: FormOptions = {}): void {
     fullHourHint.textContent = allowed ? FULL_HOUR_HINT : FULL_HOUR_LEGACY_HINT;
   }
 
+  /** Robust Health is a 3rd-level feat. */
+  function applyLevelRules(): void {
+    const allowed = robustHealthAllowed(level.value);
+    robust.disabled = !allowed;
+    if (!allowed) robust.checked = false;
+  }
+
   applyTierLimits();
   applyFeatRequirements();
   applyVersionRules();
+  applyLevelRules();
 
   function inputs(): HealingInputs {
     return {
@@ -230,6 +250,8 @@ export function initForm(opts: FormOptions = {}): void {
       dcAdjustment: dcAdjust.value,
       fullHour: fullHour.checked,
       godless: godless.checked,
+      level: level.value,
+      robustHealth: robust.checked,
       currentHp: currentHp.value,
       maxHp: maxHp.value,
     };
@@ -325,7 +347,7 @@ export function initForm(opts: FormOptions = {}): void {
       update();
     });
   }
-  for (const el of [dcTier, fullHour, godless]) {
+  for (const el of [dcTier, fullHour, godless, robust]) {
     el.addEventListener('change', update);
   }
   // The form has no submit action; keep Enter from reloading the page.

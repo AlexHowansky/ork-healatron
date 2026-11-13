@@ -95,6 +95,18 @@ describe('form behaviour', () => {
     expect(tier.value).toBe('expert');
   });
 
+  it('enables Robust Health from level 3', () => {
+    initForm();
+    const robust = el<HTMLInputElement>('has-robust');
+    expect(robust.disabled).toBe(true);
+    change('level', '3');
+    expect(robust.disabled).toBe(false);
+    change('has-robust', true);
+    change('level', '2');
+    expect(robust.disabled).toBe(true);
+    expect(robust.checked).toBe(false);
+  });
+
   it('keeps current HP within max HP', () => {
     initForm();
     change('max-hp', '10');
