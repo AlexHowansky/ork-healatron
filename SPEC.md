@@ -37,7 +37,7 @@ passes.
 
   * Character level. Text box with a slider, 1 - 20. Defaults to 1.
 
-  * Max HP. Text box with a slider, 1 - 999. Defaults to 60.
+  * Max HP. Text box with a slider, 1 - 400. Defaults to 60.
 
   * Current HP. Text box with a slider, 0 - max HP. Defaults to 20. If max
     HP is lowered below it, it is reduced to fit.
