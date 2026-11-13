@@ -17,7 +17,7 @@ import {
 
 const log = createLogger('settings');
 
-export const STORAGE_KEY = 'medalator.healer.v1';
+export const STORAGE_KEY = 'healatron.healer.v1';
 
 export interface HealerSettings {
   readonly rulesVersion: RulesVersion;

@@ -1,4 +1,4 @@
-## Medalator Specification
+## Healatron Specification
 
 What the app does: its terms and its features. How it is built is in
 `CLAUDE.md`.
@@ -75,14 +75,14 @@ passes.
 
 * Appearance: an apothecary theme over a fixed parchment blueprint
   backdrop, softened by a wash of the page colour (heavier in dark mode).
-  Each panel looks like a sheet of old paper, as in Craftalator. Herb
-  green and brass are the accents: panel headers, checkboxes and the
-  filled part of the slider tracks are green; focus rings are brass. The
-  slider thumb is a brass mortar and pestle with a sprig of herbs, and a
-  large copy sits left of the title. The title and panel headers use New
-  Rocker; key figures use a serif; body text uses the system sans-serif.
-  All text uses the full text colour. Light and dark modes follow the
-  system.
+  Each panel looks like a sheet of old paper, as in Craftalator. Potion
+  red and brass are the accents: panel headers, the Roll button, checked
+  checkboxes and the filled part of the slider tracks are red (the
+  potion's colour) and focus rings are brass. The slider thumb is a round
+  glass healing potion vial of red liquid with a cork, and a large copy
+  sits left of the title. The title and panel headers use New Rocker; key
+  figures use a serif; body text uses the system sans-serif. All text
+  uses the full text colour. Light and dark modes follow the system.
 
 * Layout: three panels, Healer, Target and Results. On a wide screen they
   sit side by side; on a medium screen Healer and Target stack beside

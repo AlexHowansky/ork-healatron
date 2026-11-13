@@ -4,7 +4,7 @@
  */
 type Level = 'debug' | 'info' | 'warn' | 'error';
 
-const PREFIX = '[medalator]';
+const PREFIX = '[healatron]';
 
 function debugEnabled(): boolean {
   if (import.meta.env.DEV) return true;

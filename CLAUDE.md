@@ -1,4 +1,4 @@
-## Medalator
+## Healatron
 
 You are an expert software engineer. You are designing a new application. This
 document explains the requirements that must be adhered to.
@@ -40,14 +40,14 @@ The product specification (terms and features) is in @SPEC.md.
   run both `bun install` and `npm install` and commit both lockfiles.
 
 * Storage: `localStorage` only, and only for the Healer panel
-  (`src/settings.ts`, key `medalator.healer.v1`). Treat stored data as
+  (`src/settings.ts`, key `healatron.healer.v1`). Treat stored data as
   untrusted: validate every field on load, falling back to defaults
   field by field. Storage may be unavailable or throw (private browsing,
   blocked site data); catch, log a warning and carry on. Bump the key's
   version if the stored shape changes incompatibly.
 
 * Logging: use `src/logger.ts` (`debug`, `info`, `warn`, `error`), never
-  `console` directly. Messages are prefixed with `[medalator]` and a module
+  `console` directly. Messages are prefixed with `[healatron]` and a module
   name. Debug output is on in dev builds, or in production when the URL
   has `?debug=1`.
 

@@ -1,11 +1,11 @@
-# Medalator
+# Healatron
 
 A calculator for Treat Wounds healing in the Pathfinder Second Edition
 roleplaying game. It supports both the Remaster (Player Core) and Legacy
 (Core Rulebook) rules.
 
 Enter the healer's Medicine proficiency, bonus and feats, and the target's
-current and max HP. Medalator shows:
+current and max HP. Healatron shows:
 
 - the Treat Wounds DC and the chance of each degree of success,
 - the average healing for each outcome, per attempt and per hour, and
@@ -51,5 +51,5 @@ Architecture and coding conventions are described in
 
 Released under the [MIT License](LICENSE).
 
-Pathfinder is a trademark of Paizo Inc. Medalator is an independent
+Pathfinder is a trademark of Paizo Inc. Healatron is an independent
 project and is not published, endorsed or approved by Paizo Inc.
