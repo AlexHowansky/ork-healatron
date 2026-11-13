@@ -12,6 +12,7 @@ const SAMPLE: HealerSettings = {
   rulesVersion: 'legacy',
   proficiency: 'master',
   bonus: 22,
+  expandedToolkit: true,
   feats: {
     continualRecovery: true,
     riskySurgery: false,
@@ -35,12 +36,14 @@ describe('parseHealerSettings', () => {
       rulesVersion: 'pf1',
       proficiency: { toString: () => 'master' },
       bonus: 2.5,
+      expandedToolkit: 'yes',
       feats: { continualRecovery: 'yes', riskySurgery: true, extra: true },
     });
     expect(parsed).toEqual({
       rulesVersion: 'remaster',
       proficiency: 'trained',
       bonus: 5,
+      expandedToolkit: false,
       feats: {
         continualRecovery: false,
         riskySurgery: true,

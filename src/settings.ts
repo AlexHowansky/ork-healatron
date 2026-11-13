@@ -23,6 +23,7 @@ export interface HealerSettings {
   readonly rulesVersion: RulesVersion;
   readonly proficiency: Proficiency;
   readonly bonus: number;
+  readonly expandedToolkit: boolean;
   readonly feats: Readonly<Record<HealerFeat, boolean>>;
 }
 
@@ -30,6 +31,7 @@ export const DEFAULT_HEALER: HealerSettings = Object.freeze({
   rulesVersion: 'remaster',
   proficiency: 'trained',
   bonus: 5,
+  expandedToolkit: false,
   feats: Object.freeze({
     continualRecovery: false,
     riskySurgery: false,
@@ -74,6 +76,10 @@ export function parseHealerSettings(data: unknown): HealerSettings {
     rulesVersion: oneOf(RULES_VERSIONS, data.rulesVersion, d.rulesVersion),
     proficiency: oneOf(PROFICIENCIES, data.proficiency, d.proficiency),
     bonus: intIn(data.bonus, LIMITS.bonus, d.bonus),
+    expandedToolkit:
+      typeof data.expandedToolkit === 'boolean'
+        ? data.expandedToolkit
+        : d.expandedToolkit,
     feats: Object.fromEntries(
       HEALER_FEATS.map((f) => [
         f,

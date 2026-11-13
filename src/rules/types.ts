@@ -49,8 +49,10 @@ export const LIMITS = Object.freeze({
 export interface HealingInputs {
   readonly rulesVersion: RulesVersion;
   readonly proficiency: Proficiency;
-  /** Medicine skill bonus, including any healer's toolkit item bonus. */
+  /** Medicine skill bonus, without the expanded toolkit's item bonus. */
   readonly bonus: number;
+  /** The healer uses an expanded healer's toolkit (+1 item bonus). */
+  readonly expandedToolkit: boolean;
   readonly feats: Readonly<Record<HealerFeat, boolean>>;
   /** Chosen DC tier; must be allowed by the proficiency. */
   readonly tier: DcTier;

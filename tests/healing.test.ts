@@ -20,6 +20,7 @@ const BASE: HealingInputs = {
   rulesVersion: 'remaster',
   proficiency: 'trained',
   bonus: 5,
+  expandedToolkit: false,
   feats: {
     continualRecovery: false,
     riskySurgery: false,
@@ -99,6 +100,12 @@ describe('degrees and odds', () => {
     const mortal = withFeats({ mortalHealing: true });
     expect(attemptDegree(10, mortal)).toBe('criticalSuccess');
     expect(attemptDegree(9, mortal)).toBe('failure');
+  });
+
+  it("adds +1 for an expanded healer's toolkit", () => {
+    const kit = { ...BASE, expandedToolkit: true };
+    expect(attemptDegree(9, kit)).toBe('success'); // 9 + 6 = 15
+    expect(attemptDegree(9, BASE)).toBe('failure');
   });
 });
 

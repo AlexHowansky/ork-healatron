@@ -88,6 +88,7 @@ export function initForm(opts: FormOptions = {}): void {
   const fullHour = byId('full-hour', HTMLInputElement);
   const fullHourHint = byId('full-hour-hint', HTMLElement);
   const godless = byId('has-godless', HTMLInputElement);
+  const toolkit = byId('has-toolkit', HTMLInputElement);
   const rollButton = byId('roll', HTMLButtonElement);
   const clearButton = byId('clear-rolls', HTMLButtonElement);
   const featBoxes: Readonly<Record<HealerFeat, HTMLInputElement>> = {
@@ -103,6 +104,7 @@ export function initForm(opts: FormOptions = {}): void {
     rulesVersion.value = saved.rulesVersion;
     proficiency.value = saved.proficiency;
     byId('bonus', HTMLInputElement).value = String(saved.bonus);
+    toolkit.checked = saved.expandedToolkit;
     for (const feat of HEALER_FEATS) {
       featBoxes[feat].checked = saved.feats[feat];
     }
@@ -146,6 +148,7 @@ export function initForm(opts: FormOptions = {}): void {
       rulesVersion: currentVersion(),
       proficiency: currentProficiency(),
       bonus: bonus.value,
+      expandedToolkit: toolkit.checked,
       feats: currentFeats(),
     });
   };
@@ -218,6 +221,7 @@ export function initForm(opts: FormOptions = {}): void {
       rulesVersion: currentVersion(),
       proficiency: currentProficiency(),
       bonus: bonus.value,
+      expandedToolkit: toolkit.checked,
       feats: currentFeats(),
       tier: oneOf<DcTier>(DC_TIERS, dcTier.value, 'trained'),
       dcAdjustment: dcAdjust.value,
@@ -297,7 +301,7 @@ export function initForm(opts: FormOptions = {}): void {
     saveHealer();
     update();
   });
-  for (const box of Object.values(featBoxes)) {
+  for (const box of [toolkit, ...Object.values(featBoxes)]) {
     box.addEventListener('change', () => {
       saveHealer();
       update();

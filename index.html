@@ -59,7 +59,7 @@
                 type="text"
                 inputmode="numeric"
                 value="5"
-                aria-describedby="bonus-hint bonus-error"
+                aria-describedby="bonus-error"
               />
               <input
                 id="bonus-slider"
@@ -70,10 +70,21 @@
                 aria-label="Medicine bonus slider"
               />
             </div>
-            <p id="bonus-hint" class="hint">
-              Include your healer's toolkit item bonus.
-            </p>
             <p id="bonus-error" class="error" role="alert" hidden></p>
+          </div>
+
+          <div class="field">
+            <div class="checkbox-field">
+              <input
+                id="has-toolkit"
+                type="checkbox"
+                aria-describedby="has-toolkit-hint"
+              />
+              <label for="has-toolkit">Expanded Healer's Toolkit</label>
+            </div>
+            <p id="has-toolkit-hint" class="hint">
+              +1 item bonus to the check.
+            </p>
           </div>
 
           <fieldset class="field feats">

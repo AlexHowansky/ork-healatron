@@ -44,6 +44,8 @@ export const MEDIC_BONUS: Readonly<Record<DcTier, number>> = Object.freeze({
 
 export const GODLESS_BONUS = 5;
 export const RISKY_SURGERY_BONUS = 2;
+/** Item bonus to Medicine from an expanded healer's toolkit. */
+export const EXPANDED_TOOLKIT_BONUS = 1;
 export const TREAT_MINUTES = 10;
 export const FULL_HOUR_MINUTES = 60;
 export const IMMUNITY_MINUTES = 60;
@@ -84,9 +86,16 @@ export function treatDc(inputs: HealingInputs): number {
   return TIER_DC[inputs.tier] + inputs.dcAdjustment;
 }
 
-/** Medicine bonus for the check, including Risky Surgery's +2. */
+/**
+ * Medicine bonus for the check, including the expanded toolkit's +1 and
+ * Risky Surgery's +2.
+ */
 export function checkBonus(inputs: HealingInputs): number {
-  return inputs.bonus + (inputs.feats.riskySurgery ? RISKY_SURGERY_BONUS : 0);
+  return (
+    inputs.bonus +
+    (inputs.expandedToolkit ? EXPANDED_TOOLKIT_BONUS : 0) +
+    (inputs.feats.riskySurgery ? RISKY_SURGERY_BONUS : 0)
+  );
 }
 
 /** Risky Surgery and Mortal Healing turn a success into a critical one. */

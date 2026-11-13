@@ -19,7 +19,10 @@ passes.
     expert, master, legendary.
 
   * Medicine bonus. Implemented as a text box with a slider. Values are
-    0 - 40. A hint says to include the healer's toolkit item bonus.
+    0 - 40.
+
+  * Expanded Healer's Toolkit. Checkbox with a hint; adds a +1 item bonus
+    to the check.
 
   * Medicine feats. Implemented as checkboxes, each with a hint: Continual
     Recovery (only enabled at expert or better; otherwise unchecked),
@@ -68,7 +71,7 @@ passes.
     button clears the log. Changing any input clears a shown log and says
     to roll again.
 
-* The Healer panel (rules version, proficiency, bonus and feats) is
+* The Healer panel (rules version, proficiency, bonus, toolkit and feats) is
   remembered in the browser and restored on the next visit. Saved values
   that are invalid fall back to the defaults. The Target panel and the
   Results panel inputs are not remembered.
@@ -108,6 +111,8 @@ passes.
 * Full hour (Remaster only): on a success the healer may keep treating
   for a total of 1 hour to double the HP regained (dice + the DC's bonus).
   The attempt then lasts 60 minutes; a failure still lasts 10.
+
+* Expanded Healer's Toolkit: +1 item bonus to the check.
 
 * Risky Surgery: deals 1d8 slashing damage to the target just before the
   effects of each attempt, adds +2 to the check, and a success becomes a

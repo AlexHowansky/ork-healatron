@@ -41,6 +41,7 @@ describe('Healer panel persistence', () => {
         rulesVersion: 'legacy',
         proficiency: 'master',
         bonus: 18,
+        expandedToolkit: true,
         feats: { continualRecovery: true, medicDedication: true },
       }),
     );
@@ -49,6 +50,7 @@ describe('Healer panel persistence', () => {
     expect(el<HTMLSelectElement>('proficiency').value).toBe('master');
     expect(el<HTMLInputElement>('bonus').value).toBe('18');
     expect(el<HTMLInputElement>('bonus-slider').value).toBe('18');
+    expect(el<HTMLInputElement>('has-toolkit').checked).toBe(true);
     expect(el<HTMLInputElement>('has-continual').checked).toBe(true);
     expect(el<HTMLInputElement>('has-medic').checked).toBe(true);
     expect(el<HTMLInputElement>('has-risky').checked).toBe(false);
@@ -63,10 +65,12 @@ describe('Healer panel persistence', () => {
     change('proficiency', 'expert');
     change('bonus', '14');
     change('has-continual', true);
+    change('has-toolkit', true);
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '')).toEqual({
       rulesVersion: 'legacy',
       proficiency: 'expert',
       bonus: 14,
+      expandedToolkit: true,
       feats: {
         continualRecovery: true,
         riskySurgery: false,
@@ -103,6 +107,8 @@ describe('form behaviour', () => {
     change('bonus', '10');
     expect(el('out-dc').textContent).toBe('15');
     expect(el('out-bonus').textContent).toBe('+10');
+    change('has-toolkit', true);
+    expect(el('out-bonus').textContent).toBe('+11');
     expect(el('out-missing').textContent).toBe('40');
     expect(el('odds-list').children).toHaveLength(4);
   });
