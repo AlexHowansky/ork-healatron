@@ -93,7 +93,9 @@ passes.
 * The Healer panel (rules version, proficiency, bonus, toolkit and feats) is
   remembered in the browser and restored on the next visit. Saved values
   that are invalid fall back to the defaults. The Target panel and the
-  Results panel inputs are not remembered.
+  Results panel inputs are not remembered. The calculator stays hidden
+  until the saved values are applied, so the defaults never flash on
+  reload.
 
 * Appearance: an apothecary theme over a fixed parchment blueprint
   backdrop, softened by a wash of the page colour (heavier in dark mode).
