@@ -9,6 +9,7 @@ import {
   bestTier,
   checkBonus,
   continualRecoveryAllowed,
+  expectedMinutesToHeal,
   riskySurgeryGain,
   fullHourAllowed,
   simulate,
@@ -275,12 +276,14 @@ export function initForm(opts: FormOptions = {}): void {
   function recalc(): void {
     const current = inputs();
     try {
+      const average = averageHealing(current);
       renderSummary({
         dc: treatDc(current),
         checkBonus: checkBonus(current),
         missingHp: current.maxHp - current.currentHp,
         upgrades: upgradesSuccess(current),
-        average: averageHealing(current),
+        average,
+        minutesToHeal: expectedMinutesToHeal(current, average),
       });
       updateTierHint(current);
       updateRiskyHint(current);

@@ -30,6 +30,8 @@ export interface Summary {
   readonly missingHp: number;
   readonly upgrades: boolean;
   readonly average: AverageHealing;
+  /** Expected minutes to full HP at the average rate; null if never. */
+  readonly minutesToHeal: number | null;
 }
 
 function renderOdds(s: Summary): void {
@@ -71,6 +73,12 @@ export function renderSummary(s: Summary): void {
   text('avg-cf', formatSigned(-a.criticalFailureDamage));
   text('avg-attempt', formatSigned(a.perAttempt));
   text('avg-interval', formatDuration(a.minutesPerAttempt));
+  text(
+    'avg-heal-time',
+    s.minutesToHeal === null
+      ? 'Never (no net healing on average)'
+      : formatDuration(s.minutesToHeal),
+  );
   const note = byId('avg-note', HTMLElement);
   note.hidden = a.surgeryDamage === 0;
   note.textContent =
@@ -94,6 +102,7 @@ export function clearSummary(): void {
     'avg-cf',
     'avg-attempt',
     'avg-interval',
+    'avg-heal-time',
   ]) {
     text(id, '-');
   }

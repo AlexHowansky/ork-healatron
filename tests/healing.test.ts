@@ -8,6 +8,7 @@ import {
   bestTier,
   checkOdds,
   continualRecoveryAllowed,
+  expectedMinutesToHeal,
   healingAmount,
   riskySurgeryGain,
   rollDegree,
@@ -184,6 +185,23 @@ describe('healing amounts', () => {
     expect(a.surgeryDamage).toBe(4.5);
     // +7 vs 15: 8-20 crit (13), 2-7 fail, 1 crit fail.
     expect(a.perAttempt).toBeCloseTo(0.65 * 18 - 0.05 * 4.5 - 4.5);
+  });
+
+  it('expects the time to full HP from the average rate', () => {
+    // 40 HP missing at 5.175 per attempt: 8 attempts, an hour apart.
+    expect(expectedMinutesToHeal(BASE)).toBe(8 * 60);
+    // Every 10 minutes with Continual Recovery: whole attempts only.
+    const cr = withFeats(
+      { continualRecovery: true },
+      { proficiency: 'expert', bonus: 20, currentHp: 59 },
+    );
+    expect(averageHealing(cr).minutesPerAttempt).toBe(10);
+    expect(expectedMinutesToHeal(cr)).toBe(10);
+    expect(expectedMinutesToHeal({ ...BASE, currentHp: 60 })).toBe(0);
+    // +0 vs DC 25 mostly critically fails, losing HP on average.
+    const losing = { ...BASE, bonus: 0, dcAdjustment: 10 };
+    expect(averageHealing(losing).perHour).toBeLessThan(0);
+    expect(expectedMinutesToHeal(losing)).toBeNull();
   });
 
   it('picks the DC with the most healing per hour', () => {

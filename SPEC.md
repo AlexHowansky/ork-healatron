@@ -68,9 +68,17 @@ passes.
     success, and a line "Rolling d20 + <bonus> vs DC <dc>", noting when
     a success counts as a critical success.
 
-  * Average HP table: average HP for each degree, the average per attempt
-    and the average time between attempts. With Risky Surgery a note says
-    the average per attempt includes its damage.
+  * Average HP table: average HP for each degree, the average per attempt,
+    the average time between attempts and the expected time to fully heal.
+    With Risky Surgery a note says the average per attempt includes its
+    damage.
+
+  * Expected time to fully heal: from the averages, no simulation. The
+    attempts needed (HP missing / average per attempt, rounded up) times
+    the average time between attempts, rounded up to a whole 10 minutes.
+    E.g. with 10 minutes between attempts it can be 40 min, never 32.
+    "0 min" at full HP; "Never (no net healing on average)" when the
+    average per attempt is zero or negative.
 
   * Roll until healed button. Rolls Treat Wounds attempts with fair dice
     until the target is at full HP, is brought down to 0 HP by damage, or

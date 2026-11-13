@@ -267,6 +267,27 @@ export function averageHealing(inputs: HealingInputs): AverageHealing {
 }
 
 /**
+ * Expected minutes to bring the target to full HP at the average rate (no
+ * simulation). Healing comes in whole attempts, so this is the attempts
+ * needed (missing HP / average per attempt, rounded up) times the average
+ * time between attempts, rounded up to a whole 10 minute treatment. 0 when
+ * already at full HP; null when the average rate doesn't heal at all.
+ */
+export function expectedMinutesToHeal(
+  inputs: HealingInputs,
+  average: AverageHealing = averageHealing(inputs),
+): number | null {
+  const missing = inputs.maxHp - inputs.currentHp;
+  if (missing <= 0) return 0;
+  if (average.perAttempt <= 0) return null;
+  const attempts = Math.ceil(missing / average.perAttempt);
+  const minutes = attempts * average.minutesPerAttempt;
+  // Round first so float noise (e.g. 60.0000001) doesn't add a step.
+  const steps = Math.ceil(Math.round(minutes * 1e6) / 1e6 / TREAT_MINUTES);
+  return steps * TREAT_MINUTES;
+}
+
+/**
  * How much Risky Surgery changes the average net HP per hour: positive if
  * it helps, negative if its damage outweighs the upgraded successes.
  */
